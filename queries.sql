@@ -130,7 +130,9 @@ with t as (
     from
         sales as s
     inner join
-        products as p on s.product_id = p.product_id)
+        products as p on s.product_id = p.product_id
+)
+
 select
     t.sale_date,
     (c.first_name || ' ' || c.last_name) as customer,
