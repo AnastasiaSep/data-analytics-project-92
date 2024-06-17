@@ -54,20 +54,20 @@ with rankedsales as (
         s.sale_date,
         e.first_name || ' ' || e.last_name as seller,
         p.price * s.quantity as sale_amount,
-        extract(ISODOW FROM s.sale_date) as day_of_week,
+        extract(ISODOW from s.sale_date) as day_of_week,
         to_char(s.sale_date, 'day') as day_of_week_name
     from
         sales as s
-    INNER JOIN
-        employees as e ON s.sales_person_id = e.employee_id
-    INNER JOIN
-        products as p ON s.product_id = p.product_id
+    inner join
+        employees as e on s.sales_person_id = e.employee_id
+    inner join
+        products as p on s.product_id = p.product_id
 )
 
 select
     seller,
     day_of_week_name,
-    floor(sum(sale_amount)) AS income
+    floor(sum(sale_amount)) as income
 from
     rankedsales
 group by
