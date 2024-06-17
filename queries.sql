@@ -54,28 +54,28 @@ with rankedsales as (
         s.sale_date,
         e.first_name || ' ' || e.last_name as seller,
         p.price * s.quantity as sale_amount,
-        extract(isodow from s.sale_date) as days,
-        to_char(s.sale_date, 'day') as days_of_weeks
+        extract(ISODOW FROM s.sale_date) as day_of_week,
+        to_char(s.sale_date, 'day') as day_of_week_name
     from
         sales as s
-    inner join
-        employees as e
-        on s.sales_person_id = e.employee_id
-    inner join
-        products as p
-        on s.product_id = p.product_id
+    INNER JOIN
+        employees as e ON s.sales_person_id = e.employee_id
+    INNER JOIN
+        products as p ON s.product_id = p.product_id
 )
+
 select
     seller,
-    days_of_weeks,
-    floor(sum(sale_amount)) as income
-
+    day_of_week_name,
+    floor(sum(sale_amount)) AS income
 from
     rankedsales
 group by
-    seller, days_of_weeks, days
+    seller,
+    day_of_week_name,
+    day_of_week
 order by
-    days asc;
+    day_of_week asc;
 --age_groups.csv Шаг 6
 --количество покупателей в разных возрастных группах
 with t as (
