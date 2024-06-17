@@ -2,7 +2,6 @@
 --customers_count.csv Шаг 4
 select count(distinct customer_id) as customers_count
 from customers;
-
 --top_10_total_income.csv Шаг 5
 --Первый отчет о десятке лучших продавцов
 select
@@ -22,8 +21,7 @@ group by
 order by
     income desc
 limit 10;
-
---Второй отчет содержит информацию о продавцах, чья средняя выручка за сделку меньше средней выручки за сделку по всем продавцам. 
+--средняя выручка за сделку меньше средней выручки за сделку по всем продавцам. 
 --lowest_average_income.csv
 with a as (
     select
@@ -49,8 +47,7 @@ select
     average_income
 from a
 where average_income < (select avg(average_income) from a);
-
---Третий отчет содержит информацию о выручке по дням недели. Каждая запись содержит имя и фамилию продавца, день недели и суммарную выручку. 
+--Третий отчет содержит информацию о выручке по дням недели.
 --day_of_the_week_income.csv
 with rankedsales as (
     select
@@ -68,7 +65,6 @@ with rankedsales as (
         products as p
         on s.product_id = p.product_id
 )
-
 select
     seller,
     days_of_weeks,
@@ -80,9 +76,8 @@ group by
     seller, days_of_weeks, days
 order by
     days asc;
-
 --age_groups.csv Шаг 6
---Первый отчет - количество покупателей в разных возрастных группах: 16-25, 26-40 и 40+. 
+--количество покупателей в разных возрастных группах
 with t as (
     select
         age,
@@ -104,7 +99,6 @@ group by
 order by age_category asc;
 
 --customers_by_month.csv
---Во втором отчете предоставьте данные по количеству уникальных покупателей и выручке, которую они принесли. 
 select
     to_char(s.sale_date, 'YYYY-MM') as selling_month,
     count(distinct c.customer_id) as total_customers,
@@ -123,7 +117,7 @@ order by
     selling_month;
 
 --special_offer.csv
---Третий отчет следует составить о покупателях, первая покупка которых была в ходе проведения акций (акционные товары отпускали со стоимостью равной 0). 
+--акции
 with t as (
     select
         s.customer_id,
