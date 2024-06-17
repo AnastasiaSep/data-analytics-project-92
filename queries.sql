@@ -54,7 +54,7 @@ with rankedsales as (
         s.sale_date,
         e.first_name || ' ' || e.last_name as seller,
         p.price * s.quantity as sale_amount,
-        extract(ISODOW from s.sale_date) as day_of_week,
+        extract(isodow from s.sale_date) as day_of_week,
         to_char(s.sale_date, 'day') as day_of_week_name
     from
         sales as s
